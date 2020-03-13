@@ -1,0 +1,9 @@
+radiomeSchemaVersion: 1.0
+
+class: workflow
+
+name: afni-skullstrip
+
+inputs:
+  input_example:
+    type: boolean
