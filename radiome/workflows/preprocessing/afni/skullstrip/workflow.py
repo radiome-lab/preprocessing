@@ -2,6 +2,7 @@ from nipype.interfaces import afni
 
 from radiome.core.execution.nipype import NipypeJob
 from radiome.core.resource_pool import ResourcePool, ResourceKey as R
+from radiome.core.schema import validate_inputs
 
 
 def create_3dskullstrip_arg_string(shrink_factor, var_shrink_fac,
@@ -162,6 +163,8 @@ def create_3dskullstrip_arg_string(shrink_factor, var_shrink_fac,
 
 
 def create_workflow(configuration, resource_pool: ResourcePool, context):
+    validate_inputs(__file__, configuration)
+
     for _, rp in resource_pool[['label-initial_T1w']]:
         anatomical_image = rp[R('T1w', label='initial')]
         anat_skullstrip = NipypeJob(
