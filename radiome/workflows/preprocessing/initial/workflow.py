@@ -9,9 +9,9 @@ from radiome.core.schema import validate_inputs
 
 def create_workflow(configuration: dict, resource_pool: ResourcePool, context: Context):
     validate_inputs(__file__, configuration)
+
     for _, rp in resource_pool[['T1w']]:
         anatomical_image = rp[R('T1w')]
-
         anat_deoblique = NipypeJob(
             interface=afni.Refit(deoblique=True),
             reference='deoblique'
@@ -36,3 +36,5 @@ def create_workflow(configuration: dict, resource_pool: ResourcePool, context: C
         )
         anat_reorient.in_file = output_node
         rp[R('T1w', label='initial')] = anat_reorient.out_file % 'initial'
+
+        # Quality Control
