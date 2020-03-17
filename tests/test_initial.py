@@ -3,12 +3,13 @@ import unittest
 import nibabel as nib
 from radiome.core.resource_pool import R
 from radiome.core.utils.mocks import WorkflowDriver
+from .utils import test_data_dir, entry_dir
 
 
 class TestCase(unittest.TestCase):
     def setUp(self):
-        self._wf = WorkflowDriver('radiome.workflows.preprocessing.initial',
-                                  os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data/images/initial'),
+        self._wf = WorkflowDriver(entry_dir('initial'),
+                                  test_data_dir('images/initial'),
                                   config={'non_local_means_filtering': False, 'n4_bias_field_correction': False})
 
     def test_result(self):

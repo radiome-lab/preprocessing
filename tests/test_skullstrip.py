@@ -4,6 +4,7 @@ import numpy as np
 import nibabel as nib
 from radiome.core.resource_pool import R
 from radiome.core.utils.mocks import WorkflowDriver
+from .utils import test_data_dir, entry_dir
 
 
 class MyTestCase(unittest.TestCase):
@@ -50,8 +51,8 @@ class MyTestCase(unittest.TestCase):
             'monkey': False
 
         }
-        self._wf = WorkflowDriver('radiome.workflows.preprocessing.afni.skullstrip',
-                                  os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data/images/skullstrip'),
+        self._wf = WorkflowDriver(entry_dir('afni/skullstrip'),
+                                  test_data_dir('images/skullstrip'),
                                   config=config)
 
     def test_result(self):
