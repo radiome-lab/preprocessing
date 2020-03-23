@@ -4,8 +4,12 @@ class: workflow
 
 name: initial
 
+doc: initial anatomical preprocessing such as refit, reorient, denoise and correction.
+
 inputs:
   non_local_means_filtering:
     type: boolean
+    doc: Non-local means filtering via ANTs DenoiseImage
   n4_bias_field_correction:
     type: boolean
+    doc: N4 bias field correction via ANTs

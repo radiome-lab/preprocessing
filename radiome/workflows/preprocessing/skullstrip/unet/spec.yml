@@ -1,0 +1,31 @@
+radiomeSchemaVersion: 1.0
+
+class: workflow
+
+name: unet-skullstrip
+
+inputs:
+  template_brain_only_for_anat:
+    type: string
+    default: /usr/local/fsl/data/standard/MNI152_T1_2mm_brain.nii.gz
+
+  template_skull_for_anat:
+    type: string
+    default: /usr/local/fsl/data/standard/MNI152_T1_2mm.nii.gz
+
+  dim_in:
+    type: integer
+    default: 3
+
+  num_conv_block:
+    type: integer
+    default: 5
+
+  kernel_root:
+    type: integer
+    default: 16
+
+  unet_model:
+    type: string
+    default: s3://fcp-indi/resources/cpac/resources/Site-All-T-epoch_36.model
+

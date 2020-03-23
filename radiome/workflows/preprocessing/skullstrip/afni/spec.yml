@@ -1,0 +1,95 @@
+radiomeSchemaVersion: 1.0
+
+class: workflow
+
+name: afni-skullstrip
+
+inputs:
+  mask_vol:
+    type: boolean
+    doc: Output a mask volume instead of a skull-stripped volume
+    default: False
+
+  shrink_factor:
+    type: float
+    doc: Parameter controlling the brain vs non-brain intensity threshold (tb)
+    default: 0.6
+
+  var_shrink_fac:
+    type: boolean
+    doc: Vary the shrink factor with the number of iterations
+
+  shrink_fac_bot_lim:
+    type: float
+    doc: Do not allow the varying SF to go below SFBL
+
+  avoid_vent:
+    type: boolean
+    doc: Avoid ventricles
+
+  niter:
+    type: integer
+    doc: Number of iterations
+    default: 250
+
+  pushout:
+    type: boolean
+    doc: Consider values above each node in addition to values below the node when deciding on expansion
+
+  touchup:
+    type: boolean
+    doc: Perform touchup operations at end to include areas not covered by surface expansion
+
+  fill_hole:
+    type: integer
+    doc: Fill small holes that can result from small surface intersections caused by the touchup operation
+
+  smooth_final:
+    type: integer
+    default: 20
+    doc: Perform final surface smoothing after all iterations
+
+  avoid_eyes:
+    type: boolean
+    doc: Avoid eyes
+
+  use_edge:
+    type: boolean
+    doc: Use edge detection to reduce leakage into meninges and eyes
+
+  exp_frac:
+    type: float
+    default: 0.1
+    doc: Speed of expansion
+
+  push_to_edge:
+    type: boolean
+    doc: Perform aggressive push to edge at the end
+
+  use_skull:
+    type: boolean
+    doc: Use outer skull to limit expansion of surface into the skull due to very strong shading artifacts
+
+  perc_int:
+    type: integer
+    default: 0
+    doc: Percentage of segments allowed to intersect surface
+
+  max_inter_iter:
+    type: integer
+    doc: Number of iteration to remove intersection problems
+
+  fac:
+    type: float
+    default: 1.0
+    doc: Multiply input dataset by FAC if range of values is too small
+
+  blur_fwhm:
+    type: integer
+    default: 0
+    doc: Blur dset after spatial normalization
+
+  monkey:
+    type: boolean
+    default: False
+    doc: Use monkey option in Skullstripping

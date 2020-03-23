@@ -1,0 +1,57 @@
+radiomeSchemaVersion: 1.0
+
+class: workflow
+
+name: bet-skullstrip
+
+doc: FSL-BET Skullstrip
+
+inputs:
+  frac:
+    type: float
+    doc: Set the threshold value controling the brain vs non-brain voxels,
+    default: 0.5
+  mask:
+    type: boolean
+    doc: Mask created along with skull stripping. It should be True
+    default: True
+  mesh:
+    type: boolean
+    doc: Mesh created along with skull stripping
+    default: False
+  outline:
+    type: boolean
+    doc: Create a surface outline image
+    default: False
+  padding:
+    type: boolean
+    doc: Add padding to the end of the image, improving BET.Mutually exclusive with functional,reduce_bias,robust,padding,remove_eyes,surfaces
+    default: False
+  radius:
+    type: integer
+    doc: Integer value of head radius
+    default: 0
+  reduce_bias:
+    type: boolean
+    doc: Reduce bias and cleanup neck. Mutually exclusive with functional,reduce_bias,robust,padding,remove_eyes,surfaces
+  remove_eyes:
+    type: boolean
+    doc: Eyes and optic nerve cleanup. Mutually exclusive with functional,reduce_bias,robust,padding,remove_eyes,surfaces
+  robust:
+    type: boolean
+    doc: Robust brain center estimation. Mutually exclusive with functional,reduce_bias,robust,padding,remove_eyes,surfaces
+  skull:
+    type: boolean
+    doc: Create a skull image
+    default: False
+  surfaces:
+    type: boolean
+    doc: Gets additional skull and scalp surfaces by running bet2 and betsurf. This is mutually exclusive with reduce_bias, robust, padding, remove_eyes
+  threshold:
+    type: boolean
+    doc: Apply thresholding to segmented brain image and mask
+    default: False
+  vertical_gradient:
+    type: float
+    doc: Vertical gradient in fractional intensity threshold (-1,1)
+    default: 0.0

@@ -9,11 +9,11 @@ from .utils import test_data_dir, entry_dir
 class TestCase(unittest.TestCase):
     def setUp(self):
         self._wf = WorkflowDriver(entry_dir('initial'),
-                                  test_data_dir('images/initial'),
-                                  config={'non_local_means_filtering': False, 'n4_bias_field_correction': False})
+                                  test_data_dir('images/initial'))
 
     def test_result(self):
-        res_rp = self._wf.run()
+        res_rp = self._wf.run(config={'non_local_means_filtering': False,
+                                      'n4_bias_field_correction': False})
         for _, rp in res_rp[['label-initial_T1w']]:
             anat_image = rp[R('T1w', label='initial')]()
             anat_reorient_sform = nib.load(anat_image).get_sform()
