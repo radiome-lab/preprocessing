@@ -21,7 +21,9 @@ setup(
     url="https://github.com/pypa/sampleproject",
     packages=find_namespace_packages(include=['radiome.workflows.*']),
     package_data={
-        'radiome.workflows.preprocessing.afni.skullstrip': ['spec.yml'],
+        'radiome.workflows.preprocessing.skullstrip.afni': ['spec.yml'],
+        'radiome.workflows.preprocessing.skullstrip.fsl': ['spec.yml'],
+        'radiome.workflows.preprocessing.skullstrip.unet': ['spec.yml'],
         'radiome.workflows.preprocessing.initial': ['spec.yml']
     },
     install_requires=requirements,
