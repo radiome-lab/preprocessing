@@ -1,0 +1,15 @@
+update: insecure
+
+pin: True
+
+schedule: "every week"
+
+search: True
+
+label_prs: update
+
+branch_prefix: pyup/
+
+pr_prefix: "Bug #12345"
+
+close_prs: True
