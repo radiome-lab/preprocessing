@@ -5,13 +5,17 @@ class: workflow
 name: unet-skullstrip
 
 inputs:
+  resolution:
+    type: string
+    default: 2mm
+
   template_brain_only_for_anat:
     type: string
-    default: /usr/local/fsl/data/standard/MNI152_T1_2mm_brain.nii.gz
+    default: /usr/local/fsl/data/standard/MNI152_T1_{resolution}_brain.nii.gz
 
   template_skull_for_anat:
     type: string
-    default: /usr/local/fsl/data/standard/MNI152_T1_2mm.nii.gz
+    default: /usr/local/fsl/data/standard/MNI152_T1_{resolution}.nii.gz
 
   dim_in:
     type: integer
