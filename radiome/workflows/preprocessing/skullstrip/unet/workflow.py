@@ -8,15 +8,14 @@ from radiome.core.resource_pool import R, Resource
 from radiome.core.utils.s3 import S3Resource
 from torch import nn
 
-from .unet.function import predict_volumes
-from .unet.model import UNet2d
+from .function import predict_volumes
+from .model import UNet2d
 
 
-# TODO don't work in Dask
 @workflow()
 def create_workflow(config: AttrDict, resource_pool: ResourcePool, context: Context):
-    for _, rp in resource_pool[['label-initial_T1w']]:
-        anat = rp[R('T1w', label='initial')]
+    for _, rp in resource_pool[['label-reorient_T1w']]:
+        anat = rp[R('T1w', label='reorient')]
         train_model = UNet2d(dim_in=config.dim_in, num_conv_block=config.num_conv_block, kernel_root=config.kernel_root)
         if config.unet_model.lower().startswith('s3://'):
             unet_path = S3Resource(config.unet_model, working_dir=tempfile.mkdtemp())()
@@ -100,5 +99,5 @@ def create_workflow(config: AttrDict, resource_pool: ResourcePool, context: Cont
         refined_brain.in_file = anat
         refined_brain.operand_files = refined_mask.out_file
 
-        rp[R('T1w', label='skullstrip', suffix='mask')] = refined_mask.out_file
-        rp[R('T1w', label='skullstrip', suffix='brain')] = refined_brain.out_file
+        rp[R('T1w', desc='skullstrip-unet', suffix='mask')] = refined_mask.out_file
+        rp[R('T1w', desc='skullstrip-unet', suffix='brain')] = refined_brain.out_file

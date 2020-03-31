@@ -6,8 +6,8 @@ from radiome.core.jobs import NipypeJob
 
 @workflow()
 def create_workflow(config: AttrDict, resource_pool: ResourcePool, context: Context):
-    for _, rp in resource_pool[['label-initial_T1w']]:
-        anat = rp[R('T1w', label='initial')]
+    for _, rp in resource_pool[['label-reorient_T1w']]:
+        anat = rp[R('T1w', label='reorient')]
         anat_skullstrip = NipypeJob(
             interface=fsl.BET(output_type='NIFTI_GZ', **config),
             reference='anat_skullstrip'
@@ -17,6 +17,5 @@ def create_workflow(config: AttrDict, resource_pool: ResourcePool, context: Cont
                                              reference='anat_skullstrip_orig_vol')
         anat_skullstrip_orig_vol.in_file_a = anat
         anat_skullstrip_orig_vol.in_file_b = anat_skullstrip.out_file
-
-        rp[R('T1w', label='skullstrip', suffix='mask')] = anat_skullstrip.mask_file
-        rp[R('T1w', label='skullstrip', suffix='brain')] = anat_skullstrip_orig_vol.out_file
+        rp[R('T1w', desc='skullstrip-fsl', suffix='mask')] = anat_skullstrip.mask_file
+        rp[R('T1w', desc='skullstrip-fsl', suffix='brain')] = anat_skullstrip_orig_vol.out_file

@@ -1,7 +1,5 @@
 import unittest
 
-import nibabel as nib
-from radiome.core.resource_pool import R
 from radiome.core.utils.mocks import WorkflowDriver
 
 from .utils import test_data_dir, entry_dir
@@ -27,20 +25,12 @@ class MyTestCase(unittest.TestCase):
             (WorkflowDriver(entry_dir('skullstrip/fsl'), test_data_dir('images/skullstrip')), {}),
             (WorkflowDriver(entry_dir('skullstrip/unet'), test_data_dir('images/skullstrip')), {})
         ]
+        # TODO set unet to linear execution
+        self._wfs[2][0].linear = True
 
     def test_result(self):
-        for wf, config in self._wfs:
-            res_rp = wf.run(config)
-            for _, rp in res_rp[['label-skullstrip_T1w']]:
-                anat_image = rp[R('T1w', label='skullstrip')]()
-                skullstrip_data = nib.load(anat_image).get_data()
-                # known_brain_data = nib.load(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data', 'template',
-                #                                          'MNI152_T1_2mm_brain.nii.gz')).get_data()
-                # bin_skullstrip = skullstrip_data.flatten()
-                # bin_brain = known_brain_data.flatten()
-
-                # correlation = np.corrcoef(bin_skullstrip, bin_brain)
-                # self.assertGreaterEqual(correlation[0, 1], 0.95)
+        for wf, config in self._wfs[2:3]:
+            self.assertTrue(wf.run(config))
 
 
 if __name__ == '__main__':

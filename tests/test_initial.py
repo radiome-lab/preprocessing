@@ -1,8 +1,9 @@
-import os
 import unittest
+
 import nibabel as nib
 from radiome.core.resource_pool import R
 from radiome.core.utils.mocks import WorkflowDriver
+
 from .utils import test_data_dir, entry_dir
 
 

@@ -3,7 +3,7 @@ from radiome.core.context import Context
 
 from radiome.core.jobs import NipypeJob
 from radiome.core.resource_pool import ResourcePool, ResourceKey as R
-from radiome.core import workflow
+from radiome.core import workflow, AttrDict
 
 
 def create_3dskullstrip_arg_string(shrink_factor, var_shrink_fac,
@@ -164,20 +164,20 @@ def create_3dskullstrip_arg_string(shrink_factor, var_shrink_fac,
 
 
 @workflow()
-def create_workflow(config: dict, resource_pool: ResourcePool, context: Context):
-    for _, rp in resource_pool[['label-initial_T1w']]:
-        anatomical_image = rp[R('T1w', label='initial')]
+def create_workflow(config: AttrDict, resource_pool: ResourcePool, context: Context):
+    for _, rp in resource_pool[['label-reorient_T1w']]:
+        anat_image = rp[R('T1w', label='reorient')]
         anat_skullstrip = NipypeJob(
             interface=afni.SkullStrip(outputtype='NIFTI_GZ', args=create_3dskullstrip_arg_string(**config)),
             reference='anat_skullstrip'
         )
-        anat_skullstrip.in_file = anatomical_image
+        anat_skullstrip.in_file = anat_image
         anat_brain_mask = NipypeJob(interface=afni.Calc(expr='step(a)', outputtype='NIFTI_GZ'),
                                     reference='anat_brain_mask')
         anat_skullstrip_orig_vol = NipypeJob(interface=afni.Calc(expr='a*step(b)', outputtype='NIFTI_GZ'),
                                              reference='anat_skullstrip_orig_vol')
         anat_brain_mask.in_file_a = anat_skullstrip.out_file
-        anat_skullstrip_orig_vol.in_file_a = anatomical_image
+        anat_skullstrip_orig_vol.in_file_a = anat_image
         anat_skullstrip_orig_vol.in_file_b = anat_brain_mask.out_file
-        rp[R('T1w', label='skullstrip', suffix='mask')] = anat_brain_mask.out_file
-        rp[R('T1w', label='skullstrip', suffix='brain')] = anat_skullstrip_orig_vol.out_file
+        rp[R('T1w', desc='skullstrip-afni', suffix='mask')] = anat_brain_mask.out_file
+        rp[R('T1w', desc='skullstrip-afni', suffix='brain')] = anat_skullstrip_orig_vol.out_file
